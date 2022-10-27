@@ -28,6 +28,8 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
+Question: spatial data of the world with the difference in gender inequality between 2010 and 2019
+
 #read my CSV
 ```{r}
 library("here")
@@ -46,7 +48,15 @@ GenderInequality<-myscv1 %>%
 #select rows
 
 GenderInequality<-GenderInequality[1:196,]
+
+# caculate the difference between 2010 and 2019
+
+GenderInequality$diff <- GenderInequality$gii_2019-GenderInequality$gii_2010
+
+GenderInequalityfinal <- select(GenderInequality,iso3, diff)
+
 ```
+
 
 # read my shapefile
 ```{r}
@@ -69,13 +79,12 @@ library(countrycode)
 library(tidyverse)
 joined_sdw <- shape %>%
   merge(.,
-        GenderInequality,
+        GenderInequalityfinal,
         by.x="ISO3", 
         by.y="iso3",
         all.x=TRUE)
 
 ```
 
-```
 
 
